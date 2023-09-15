@@ -95,16 +95,66 @@ public:
         }
     }
 
-    void rotateRight() {
+    void rotateRight() 
+    {
         // Implement right rotation
+        switch (direction) 
+        {
+        case 'N':
+            direction = 'E';
+            break;
+        case 'S':
+            direction = 'W';
+            break;
+        case 'E':
+            direction = 'S';
+            break;
+        case 'W':
+            direction = 'N';
+            break;
+        // Up and Down directions remain the same during left/right rotation
+        
+        }
     }
 
-    void rotateUp() {
-        // Implement upward angle adjustment
+    void rotateUp() 
+    {
+        if (direction == 'N' || direction == 'S') 
+        {
+            direction = 'U';
+        } 
+        else if (direction == 'D' || direction == 'U') 
+        {
+            // No change for Up or Down
+        } 
+        else if (direction == 'E') 
+        {
+            direction = 'R'; // Right
+        } 
+        else if (direction == 'W') 
+        {
+            direction = 'L'; // Left
+        }
     }
 
-    void rotateDown() {
-        // Implement downward angle adjustment
+    void rotateDown() 
+    {
+        if (direction == 'N' || direction == 'S') 
+        {
+            direction = 'D';
+        } 
+        else if (direction == 'D' || direction == 'U') 
+        {
+            // No change for Up or Down
+        } 
+        else if (direction == 'E') 
+        {
+            direction = 'R'; // Right
+        } 
+        else if (direction == 'W') 
+        {
+            direction = 'L'; // Left
+        }
     }
 
     tuple<int, int, int, char> getCurrentState()
@@ -148,5 +198,14 @@ int main()
             craft.rotateDown();
         }
     }
+
+    tuple<int, int, int, char> finalState = craft.getCurrentState();
+    int finalX, finalY, finalZ;
+    char finalDirection;
+    tie(finalX, finalY, finalZ, finalDirection) = finalState;
+
+    cout << "Final Position: (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+    cout << "Final Direction: " << finalDirection << "\n";
+
     return 0;
 }
