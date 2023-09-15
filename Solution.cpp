@@ -18,15 +18,14 @@ private:
     char direction;
 
 public:
-    // parameterized Constructor
-    LunarCraft(int x, int y, int z, char initialDirection)
+    LunarCraft(int x, int y, int z, char initialDirection) 
     {
         positionX = x;
         positionY = y;
         positionZ = z;
         direction = initialDirection;
     }
-    // implementation of moveforword function
+    // implementation of  move forword function
     void moveForward() 
     {
         if (direction == 'N') 
@@ -45,7 +44,7 @@ public:
         {
             positionX--;
         } 
-        else if (direction == 'U')
+        else if (direction == 'U') 
         {
             positionZ++;
         } 
@@ -54,7 +53,6 @@ public:
             positionZ--;
         }
     }
-
     // implementation of movebackword function
     void moveBackward() 
     {
@@ -83,7 +81,6 @@ public:
             positionZ++;
         }
     }
-
     // implementation of rotate left function
     void rotateLeft() 
     {
@@ -101,10 +98,14 @@ public:
             case 'W':
                 direction = 'S';
                 break;
-            // Up and Down directions remain the same during left/right rotation
+            case 'U':
+                direction = 'D';  // Update for Up and Down rotations
+                break;
+            case 'D':
+                direction = 'U';  // Update for Up and Down rotations
+                break;
         }
     }
-
     // implementation of rotate right function
     void rotateRight() 
     {
@@ -122,50 +123,29 @@ public:
             case 'W':
                 direction = 'N';
                 break;
-            // Up and Down directions remain the same during left/right rotation
+            case 'U':
+                direction = 'D';  // Update for Up and Down rotations
+                break;
+            case 'D':
+                direction = 'U';  // Update for Up and Down rotations
+                break;
         }
     }
-
     // implementation of rotate up function
     void rotateUp() 
     {
-        if (direction == 'N' || direction == 'S') 
-        {
+        if (direction == 'N' || direction == 'S' || direction == 'E' || direction == 'W') {
             direction = 'U';
-        } 
-        else if (direction == 'D' || direction == 'U') 
-        {
-            // No change for Up or Down
-        } 
-        else if (direction == 'E') 
-        {
-            direction = 'R'; // Right
-        } 
-        else if (direction == 'W') 
-        {
-            direction = 'L'; // Left
         }
+        // No change for Up or Down in other cases
     }
-
-    // implementation of rotate down function
+    // implemetation of rotate down function
     void rotateDown() 
     {
-        if (direction == 'N' || direction == 'S') 
-        {
+        if (direction == 'N' || direction == 'S' || direction == 'E' || direction == 'W') {
             direction = 'D';
-        } 
-        else if (direction == 'D' || direction == 'U') 
-        {
-            // No change for Up or Down
-        } 
-        else if (direction == 'E') 
-        {
-            direction = 'R'; // Right
-        } 
-        else if (direction == 'W') 
-        {
-            direction = 'L'; // Left
         }
+        // No change for Up or Down in other cases
     }
 
     tuple<int, int, int, char> getCurrentState() 
@@ -175,61 +155,45 @@ public:
 };
 
 int main() {
-    vector<tuple<string,vector<char>,tuple<int, int, int, char>>> testCases =
+    LunarCraft craft(0, 0, 0, 'N');  // Initialize with starting position and direction
+
+    vector<char> commands = {'f', 'r', 'u', 'b', 'l'};
+
+    for (char command : commands) 
     {
-        {"Test 1: Initial Position (0, 0, 0) - Direction N",
-         {'f', 'r', 'u', 'b', 'l'},
-         {0, 0, 0, 'N'}
-         },
-        // Add more test cases as needed
-    };
-
-    for (const auto& testCase : testCases) 
-    {
-        string testName = std::get<0>(testCase);
-        vector<char> commands = std::get<1>(testCase);
-        tuple<int, int, int, char> expectedState = std::get<2>(testCase);
-
-        LunarCraft chandrayaan(get<0>(expectedState),get<1>(expectedState), get<2>(expectedState), std::get<3>(expectedState));
-
-        for (char command : commands) {
-            switch (command) {
-                case 'f':
-                    chandrayaan.moveForward();
-                    break;
-                case 'b':
-                    chandrayaan.moveBackward();
-                    break;
-                case 'r':
-                    chandrayaan.rotateRight();
-                    break;
-                case 'l':
-                    chandrayaan.rotateLeft();
-                    break;
-                case 'u':
-                    chandrayaan.rotateUp();
-                    break;
-                case 'd':
-                    chandrayaan.rotateDown();
-                    break;
-                default:
-                    std::cout << "Invalid command: " << command << std::endl;
-                    break;
-            }
+        if (command == 'f') 
+        {
+            craft.moveForward();
+        } 
+        else if (command == 'b') 
+        {
+            craft.moveBackward();
+        } 
+        else if (command == 'r') 
+        {
+            craft.rotateRight();
+        } 
+        else if (command == 'l') 
+        {
+            craft.rotateLeft();
+        } 
+        else if (command == 'u') 
+        {
+            craft.rotateUp();
+        } 
+        else if (command == 'd') 
+        {
+            craft.rotateDown();
         }
-
-        tuple<int, int, int, char> finalState = chandrayaan.getCurrentState();
-
-        bool testPassed = finalState == expectedState;
-
-        cout << testName << " - " << (testPassed ? "Passed" : "Failed") <<endl;
-        if (!testPassed) {
-            cout << "Expected: Position (" << get<0>(expectedState) << ", " <<get<1>(expectedState) << ", " <<get<2>(expectedState) << ") Direction: " <<get<3>(expectedState) <<endl;
-            cout << "Actual: Position (" <<get<0>(finalState) << ", " <<get<1>(finalState) << ", " <<get<2>(finalState) << ") Direction: " <<get<3>(finalState) <<endl;
-        }
-
-        cout <<endl;
     }
+
+    tuple<int, int, int, char> finalState = craft.getCurrentState();
+    int finalX, finalY, finalZ;
+    char finalDirection;
+    tie(finalX, finalY, finalZ, finalDirection) = finalState;
+
+    cout << "Final Position: (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+    cout << "Final Direction: " << finalDirection << "\n";
 
     return 0;
 }
