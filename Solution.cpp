@@ -26,15 +26,20 @@ public:
     void moveForward() {
         if (direction == 'N') {
             positionY++;
-        } else if (direction == 'S') {
+        } 
+        else if (direction == 'S') {
             positionY--;
-        } else if (direction == 'E') {
+        } 
+        else if (direction == 'E') {
             positionX++;
-        } else if (direction == 'W') {
+        } 
+        else if (direction == 'W') {
             positionX--;
-        } else if (direction == 'U') {
+        } 
+        else if (direction == 'U') {
             positionZ++;
-        } else if (direction == 'D') {
+        } 
+        else if (direction == 'D') {
             positionZ--;
         }
     }
@@ -59,8 +64,9 @@ public:
         // Implement downward angle adjustment
     }
 
-    std::tuple<int, int, int, char> getCurrentState() {
-        return std::make_tuple(positionX, positionY, positionZ, direction);
+    tuple<int, int, int, char> getCurrentState()
+    {
+        return make_tuple(positionX, positionY, positionZ, direction);
     }
 
 
