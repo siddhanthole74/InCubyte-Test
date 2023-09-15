@@ -221,7 +221,12 @@ int main() {
         } 
         
     }
-
+    tuple<int, int, int, char> finalState = craft.getCurrentState();
+    int finalX, finalY, finalZ;
+    char finalDirection;
+    tie(finalX, finalY, finalZ, finalDirection) = finalState;
+    cout <<"Position After Moving Left : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+    cout <<"Final Direction: " << finalDirection << "\n";
     
 
     return 0;
