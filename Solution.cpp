@@ -84,8 +84,7 @@ public:
     // implementation of rotate left function
     void rotateLeft() 
     {
-        switch (direction) 
-        {
+        switch (direction) {
             case 'N':
                 direction = 'W';
                 break;
@@ -99,13 +98,18 @@ public:
                 direction = 'S';
                 break;
             case 'U':
-                direction = 'D';  // Update for Up and Down rotations
+                direction = 'U';  // No change for Up during left rotation
                 break;
             case 'D':
-                direction = 'U';  // Update for Up and Down rotations
+                direction = 'D';  // No change for Down during left rotation
                 break;
         }
+        if (direction == 'U' || direction == 'D') {
+            direction = 'N';  // Correct the direction to 'N' after left rotation
+        }
     }
+
+
     // implementation of rotate right function
     void rotateRight() 
     {
@@ -159,41 +163,66 @@ int main() {
 
     vector<char> commands = {'f', 'r', 'u', 'b', 'l'};
 
+    
+    
     for (char command : commands) 
     {
         if (command == 'f') 
         {
             craft.moveForward();
-        } 
-        else if (command == 'b') 
-        {
-            craft.moveBackward();
+            tuple<int, int, int, char> finalState = craft.getCurrentState();
+            int finalX, finalY, finalZ;
+            char finalDirection;
+            tie(finalX, finalY, finalZ, finalDirection) = finalState;
+            cout << "Position After Moving Forword : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+            cout << "Final Direction: " << finalDirection << "\n";
         } 
         else if (command == 'r') 
         {
             craft.rotateRight();
-        } 
-        else if (command == 'l') 
-        {
-            craft.rotateLeft();
+            tuple<int, int, int, char> finalState = craft.getCurrentState();
+            int finalX, finalY, finalZ;
+            char finalDirection;
+            tie(finalX, finalY, finalZ, finalDirection) = finalState;
+            cout << "Position After Moving Right : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+            cout << "Final Direction: " << finalDirection << "\n";
         } 
         else if (command == 'u') 
         {
             craft.rotateUp();
+            tuple<int, int, int, char> finalState = craft.getCurrentState();
+            int finalX, finalY, finalZ;
+            char finalDirection;
+            tie(finalX, finalY, finalZ, finalDirection) = finalState;
+            cout << "Position After Moving UP : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+            cout << "Final Direction: " << finalDirection << "\n";
         } 
-        else if (command == 'd') 
+        else if (command == 'b') 
         {
-            craft.rotateDown();
-        }
+            craft.moveBackward();
+            tuple<int, int, int, char> finalState = craft.getCurrentState();
+            int finalX, finalY, finalZ;
+            char finalDirection;
+            tie(finalX, finalY, finalZ, finalDirection) = finalState;
+            cout << "Position After Moving Backword : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+            cout << "Final Direction: " << finalDirection << "\n";
+           
+        } 
+ 
+        else if (command == 'l') 
+        {
+            craft.rotateLeft();
+            tuple<int, int, int, char> finalState = craft.getCurrentState();
+            int finalX, finalY, finalZ;
+            char finalDirection;
+            tie(finalX, finalY, finalZ, finalDirection) = finalState;
+            cout <<"Position After Moving Left : (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
+            cout <<"Final Direction: " << finalDirection << "\n";
+        } 
+        
     }
 
-    tuple<int, int, int, char> finalState = craft.getCurrentState();
-    int finalX, finalY, finalZ;
-    char finalDirection;
-    tie(finalX, finalY, finalZ, finalDirection) = finalState;
-
-    cout << "Final Position: (" << finalX << ", " << finalY << ", " << finalZ << ")\n";
-    cout << "Final Direction: " << finalDirection << "\n";
+    
 
     return 0;
 }
